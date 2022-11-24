@@ -1,0 +1,134 @@
+@import 'App.scss';
+
+header{
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 1px 0 0 RGB(0 0 0 / 10%);
+    margin-top: 20px;
+    & > div{
+        @include wrap;
+    }
+    .logoWrap{
+        height: 100px;
+        max-width: 1200px;
+        width: 100%;
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: flex-start;
+        align-items: center;
+        .logo{
+            height: 100px;
+        }
+    }
+    .headerWrap{
+        padding-top: 20px;
+        position: relative;
+        input{
+            outline: none;
+            height: 50px;
+            line-height: 50px;
+            width: 100%;
+            margin: 0;
+            padding: 0 36px 0 60px;
+            border: 1px solid #f2f4f7;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: #767676;
+            background-color: #f2f4f7;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            &:focus{
+                border-width: 2px;
+                border-color: #333; 
+            }
+        }
+        .searchIcon{
+            width: 32px;
+            height: 32px;
+            position: absolute;
+            top: 29px;
+            left: 20px;
+            color: #939393;
+        }
+        h4{
+            display: inline-block;
+            font-size: inherit;
+            margin-top: 10px;
+            line-height: 20px;
+            font-weight: 600;
+            color: #333;
+        }
+        .historyList{
+            width: 100%;
+            padding: 10px 0;
+            display: flex;
+            flex-flow: row nowrap;
+            gap: 10px;
+            align-items: baseline;
+            justify-content: flex-start;
+            overflow: scroll hidden;
+            &::-webkit-scrollbar {
+                height: 10px;
+            }
+            &::-webkit-scrollbar-track {
+                background-color: transparent;
+            }
+            &::-webkit-scrollbar-thumb {
+                border-radius: 3px;
+                background-color: #e8edf3;
+            }
+            &::-webkit-scrollbar-button {
+                width: 0;
+                height: 0;
+            }
+            & > div{
+                position: relative;
+                margin: 0;
+                height: 50px;
+                line-height: 50px;
+                font-size: 1rem;
+                font-weight: 400;
+                color: #333;
+                padding: 0 13px 0 26px;
+                border-radius: 25px;
+                display: flex;
+                flex-flow: row nowrap;
+                flex-shrink: 0;
+                align-items: center;
+                gap: 10px;
+                &:hover{
+                    filter:brightness(95%);
+                }
+                &:first-child{
+                    background: #f0f8f8;
+                }
+                &:nth-child(2){
+                    background: #eeedf4;
+                }
+                &:nth-child(3){
+                    background: #e8edf3
+                }
+                &:nth-child(4){
+                    background: #e9f4fb;
+                }
+                &:nth-child(5){
+                    background: #effbf3;
+                }
+                button{
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+                    height: 30px;
+                    width: 30px;
+                    .closeIcon{
+                        color: #939393;
+                        height: 20px;
+                        width: 20px;
+                    }
+                }
+            }
+        }
+    }
+}
