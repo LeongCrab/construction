@@ -1,10 +1,10 @@
 import "../style/Header.scss";
 import { MdSearch, MdClose } from 'react-icons/md';
 import React, { useState, useEffect, useRef } from "react";
-import API_KEYS from '../data/api_keys.json';
 import Geocode from "react-geocode";
 
-Geocode.setApiKey(API_KEYS.GOOGLE_MAPS_KEY);
+const {REACT_APP_GOOGLE_MAPS_KEY} = process.env;
+Geocode.setApiKey(REACT_APP_GOOGLE_MAPS_KEY);
 Geocode.setLanguage('ko');
 Geocode.setRegion('kr');
 Geocode.enableDebug();

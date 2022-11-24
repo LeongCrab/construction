@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useRef } from 'react';
-import API_KEYS from '../data/api_keys.json';
 import styled from 'styled-components';
-
+const {REACT_APP_GOOGLE_MAPS_KEY} = process.env;
 const MapStyle = styled.div`
   width: 100%;
 `;
@@ -35,7 +34,6 @@ const GoogleMap = ({location}) => {
 
     useEffect(() => {
       const script = window.document.getElementsByTagName('script')[0];
-      const GOOGLE_MAPS_KEY = API_KEYS.GOOGLE_MAPS_KEY;
       const includeCheck = script.src.startsWith(
         'https://maps.googleapis.com/maps/api'
       );
@@ -44,7 +42,7 @@ const GoogleMap = ({location}) => {
 
       window.initMap = initMap;
       loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_KEY}&callback=initMap&language=ko`
+        `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAPS_KEY}&callback=initMap&language=ko`
       );
     }, [initMap, loadScript]);
 

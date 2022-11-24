@@ -4,9 +4,10 @@ import styled from 'styled-components';
 import '../style/App.scss';
 import Header from './Header';
 import GoogleMap from './GoogleMap';
-import API_KEYS from '../data/api_keys.json';
 import { FaGithub } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
+
+const {REACT_APP_SEOUL_KEY} = process.env;
 
 function App() {
   const [location, setLocation] = useState({lat: 37.5408325, lng: 126.9459381});
@@ -14,8 +15,7 @@ function App() {
 
   useEffect(() => {
     const loadData = async () => {
-      const SEOUL_KEY = API_KEYS.SEOUL_KEY;
-      const url = `http://openAPI.seoul.go.kr:8088/${SEOUL_KEY}/xml/ListOnePMISBizInfo/1/5`;
+      const url = `http://openAPI.seoul.go.kr:8088/${REACT_APP_SEOUL_KEY}/xml/ListOnePMISBizInfo/1/5`;
       try {
         const data = await axios({
           method: 'get',
