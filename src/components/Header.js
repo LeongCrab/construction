@@ -3,8 +3,8 @@ import { MdSearch, MdClose } from 'react-icons/md';
 import React, { useState, useEffect, useRef } from "react";
 import Geocode from "react-geocode";
 
-const {REACT_APP_GOOGLE_MAPS_KEY} = process.env;
-Geocode.setApiKey(REACT_APP_GOOGLE_MAPS_KEY);
+const GOOGLE_MAPS_KEY = process.env.REACT_APP_GOOGLE_MAPS_KEY;
+Geocode.setApiKey(GOOGLE_MAPS_KEY);
 Geocode.setLanguage('ko');
 Geocode.setRegion('kr');
 Geocode.enableDebug();
@@ -18,8 +18,8 @@ const addToLoc = async (address) => {
     .catch(err => alert("올바른 주소를 입력해주세요."))
 }
 
-const Header = ({location, setLocation}) => {
-  const [address, setAdress] = useState('');
+const Header = ({setLocation}) => {
+  const [address, setAddress] = useState('');
   const [history, setHistory] = useState([]);
   const search = useRef(null);
 
@@ -32,7 +32,7 @@ const Header = ({location, setLocation}) => {
       const {lat, lng} = await addToLoc(address);
       setLocation({lat: lat, lng: lng});
       setHistory(prev => [...new Set([address, ...prev])].slice(0, 5));
-      setAdress("");
+      setAddress("");
     }
   }
 
@@ -43,7 +43,7 @@ const Header = ({location, setLocation}) => {
         setHistory(history.filter(el => el !== address));
       }
       return(
-        <div onClick={() => setAdress(address)}>
+        <div onClick={() => setAddress(address)}>
           {address}
         <button type="button" onClick={deleteHistory}>
           <MdClose className="closeIcon" />
@@ -69,7 +69,7 @@ const Header = ({location, setLocation}) => {
           ref={search}
           placeholder="궁금한 주소를 입력하세요."
           value={address}
-          onChange={(e) => setAdress(e.target.value)}
+          onChange={(e) => setAddress(e.target.value)}
           type="text"
           onKeyDown={searchLocation}
         />

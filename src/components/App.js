@@ -1,91 +1,71 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
-import styled from 'styled-components';
-import '../style/App.scss';
+import '../style/app.scss';
 import Header from './Header';
 import GoogleMap from './GoogleMap';
+import Info from './Info';
 import { FaGithub } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 
-const {REACT_APP_SEOUL_KEY} = process.env;
+const SEOUL_KEY = process.env.REACT_APP_SEOUL_KEY;
 
 function App() {
-  const [location, setLocation] = useState({lat: 37.5408325, lng: 126.9459381});
-  const [result, setResult] = useState({});
+  const [location, setLocation] = useState();
+  const [data, setData] = useState([]);
+  const [isFetching, setFetching] = useState(true);
+  const [idx, setIdx] = useState(1);
+  const [info, setInfo] = useState({});
+  
+  const fetchData = useCallback( async () => {
+    const url = `http://openAPI.seoul.go.kr:8088/${SEOUL_KEY}/json/ListOnePMISBizInfo/${idx}/${idx + 999}`;
 
-  useEffect(() => {
-    const loadData = async () => {
-      const url = `http://openAPI.seoul.go.kr:8088/${REACT_APP_SEOUL_KEY}/xml/ListOnePMISBizInfo/1/5`;
-      try {
-        const data = await axios({
-          method: 'get',
-          url: url,
-        });
-        setResult(data);
-      }
-      catch(err) {
-        alert(err);
+    const saveData = dat => {
+      const datum = {
+        PJT_CD: dat.PJT_CD, // 사업코드
+        PJT_NAME: dat.PJT_NAME, // 사업명
+        OFFICE_ADDR: dat.OFFICE_ADDR, // 공사위치
+        LAT: dat.LAT, // 위도
+        LNG: dat.LNG, // 경도
+        DU_DATE: dat.DU_DATE, //공사기간
+        DT3: dat.DT3, // D-Day
+        ORG_1: dat.ORG_1, // 발주처
+        ORG_3: dat.ORG_3, // 시공사 업체명
+        PJT_SCALE: dat.PJT_SCALE, // 사업규모
+        AIR_VIEW_IMG: dat.AIR_VIEW_IMG, // 조감도 링크
+      };
+      setData(prev => prev.concat(datum));
+    }
+    try {
+      const loaded = await axios({
+        method: 'get',
+        url: url,
+      });
+      if (loaded.data.ListOnePMISBizInfo) {
+        await loaded.data.ListOnePMISBizInfo.row.forEach(dat => saveData(dat));
+        await setFetching(true);
       }
     }
-    loadData();
-  }, []);
+    catch(err) {
+      setFetching(false);
+      alert(err);
+    }
+  }, [idx]);
+
+  useEffect(() => {
+    if (isFetching) {
+      setFetching(false);
+      fetchData(idx);
+      console.log(data);
+      setIdx(prev => prev + 1000);
+    }
+  }, [isFetching]);
 
   return (
     <div className="app_wrap">
-      <Header location={location} setLocation={setLocation}>
-        헤더
-      </Header>
+      <Header setLocation={setLocation} />
       <div className='body_wrap'>
-        <GoogleMap location={location} />
-        <aside>
-          {/* 조감도 있을 때만 나타내기 */}
-          <div>
-            <span className='header'>조감도</span>
-            <span className='body'>
-              <img src="https://cis.seoul.go.kr/data/edms//202103/210329161699950551709.edm" alt="사진 없음"/>
-            </span>
-          </div>
-          <div>
-            <span className='header'>주무기관</span>
-            <span className='body'>서울주택도시공사</span>
-          </div>
-          <div>
-            <span className='header'>공사명</span>
-            <span className='body'>강동센터 임대아파트 시설물 유지보수공사</span>
-          </div>
-          <div>
-            <span className='header'>공사기간</span>
-            <span className='body'>	2021-04-01 ~ 2023-03-31</span>
-          </div>
-          <div>
-            <span className='header'>D-Day</span>
-            <span className='body'>128일</span>
-          </div>
-          <div>
-            <span className='header'>공사위치</span>
-            <span className='body'>서울 강동구 아리수로93가길 25 등 강동센터 관내 임대아파트</span>
-          </div>
-          <div>
-            <span className='header'>시공사</span>
-            <span className='body'>제이엠종합건설(주)</span>
-          </div>
-          <div>
-            <span className='header'>현장대리인</span>
-            <span className='body'>박호봉(Tel: 02-535-7149)</span>
-          </div>
-          <div>
-            <span className='header'>공사규모</span>
-            <span className='body'>	강동센터 임대아파트 시설물 유지보수공사</span>
-          </div>
-          <div>
-            <span className='header'>웹페이지</span>
-            <span className='body'>
-              <a href="https://cis.seoul.go.kr/TotalAlimi_new/PopInfo.action?cmd=info1&pjt_cd=7042021032995" target="_blank" rel="noopener noreferrer" >
-                https://cis.seoul.go.kr/TotalAlimi_new/PopInfo.action?cmd=info1&pjt_cd=7042021032995
-              </a>
-              </span>
-          </div>
-        </aside>
+        <GoogleMap location={location} data={data} setInfo={setInfo}/>
+        <Info info={info} />
       </div>
       <footer>
         <div>
