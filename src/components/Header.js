@@ -18,7 +18,7 @@ const addToLoc = async (address) => {
     .catch(err => alert("올바른 주소를 입력해주세요."))
 }
 
-const Header = ({setLocation}) => {
+const Header = ({setLocation, setMessage}) => {
   const [address, setAddress] = useState('');
   const [history, setHistory] = useState([]);
   const search = useRef(null);
@@ -35,6 +35,26 @@ const Header = ({setLocation}) => {
       setAddress("");
     }
   }
+  const getLocation = () => {
+    if (navigator.geolocation) {
+      setMessage("Loading...")
+      navigator.geolocation.getCurrentPosition((position) => {
+        setMessage(null);
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        setLocation(pos);
+        },
+        () => {
+          setMessage("Unable to retrieve your location");
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      setMessage("Geolocation is not supported by your browser");
+    }
+  };
 
   const HistoryList = () => {
     const HistoryTag = ({address}) => {
@@ -74,6 +94,7 @@ const Header = ({setLocation}) => {
           onKeyDown={searchLocation}
         />
         <MdSearch className="searchIcon" />
+        <button className="locationBtn" onClick={getLocation}>현재 위치</button>
         <h4>최근 검색</h4>
         <HistoryList />
       </div>

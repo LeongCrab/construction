@@ -3,7 +3,6 @@ import axios from 'axios';
 import '../style/app.scss';
 import Header from './Header';
 import GoogleMap from './GoogleMap';
-import Info from './Info';
 import { FaGithub } from 'react-icons/fa';
 import { MdEmail } from 'react-icons/md';
 
@@ -13,11 +12,11 @@ function App() {
   const [location, setLocation] = useState();
   const [data, setData] = useState([]);
   const [isFetching, setFetching] = useState(true);
-  const [idx, setIdx] = useState(1);
-  const [info, setInfo] = useState({});
+  const [page, setPage] = useState(1);
+  const [message, setMessage] = useState(null);
   
   const fetchData = useCallback( async () => {
-    const url = `http://openAPI.seoul.go.kr:8088/${SEOUL_KEY}/json/ListOnePMISBizInfo/${idx}/${idx + 999}`;
+    const url = `http://openAPI.seoul.go.kr:8088/${SEOUL_KEY}/json/ListOnePMISBizInfo/${page}/${page + 999}`;
 
     const saveData = dat => {
       const datum = {
@@ -31,7 +30,6 @@ function App() {
         ORG_1: dat.ORG_1, // 발주처
         ORG_3: dat.ORG_3, // 시공사 업체명
         PJT_SCALE: dat.PJT_SCALE, // 사업규모
-        AIR_VIEW_IMG: dat.AIR_VIEW_IMG, // 조감도 링크
       };
       setData(prev => prev.concat(datum));
     }
@@ -49,23 +47,22 @@ function App() {
       setFetching(false);
       alert(err);
     }
-  }, [idx]);
+  }, [page]);
 
   useEffect(() => {
     if (isFetching) {
       setFetching(false);
-      fetchData(idx);
-      console.log(data);
-      setIdx(prev => prev + 1000);
+      fetchData(page);
+      setPage(prev => prev + 1000);
     }
   }, [isFetching]);
 
   return (
     <div className="app_wrap">
-      <Header setLocation={setLocation} />
+      <Header setLocation={setLocation} setMessage={setMessage} />
       <div className='body_wrap'>
-        <GoogleMap location={location} data={data} setInfo={setInfo}/>
-        <Info info={info} />
+        <div>{message}</div>
+        {!message && (<GoogleMap location={location} data={data} />)}
       </div>
       <footer>
         <div>

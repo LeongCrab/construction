@@ -52,6 +52,20 @@ header{
             left: 20px;
             color: #939393;
         }
+        .locationBtn{
+            height: 32px;
+            padding: 0 10px;
+            position: absolute;
+            top: 29px;
+            right: 20px;
+            border-radius: 4px;
+            font-size: 1rem;
+            background-color: #f2f4f7;
+            border: 1px solid #767676;
+            color: #767676;
+            font-weight: 700;
+            z-index: 1;
+        }
         h4{
             display: inline-block;
             font-size: inherit;

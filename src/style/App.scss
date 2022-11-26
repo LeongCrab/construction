@@ -12,14 +12,12 @@
 }
 .body_wrap{
     @include wrap;
-    margin-top: 20px;
+    position: relative;
+    padding-top: 20px;
     max-width: 100%;
     display: flex;
     flex-flow: row nowrap;
     min-height: calc(100vh - 320px);
-}
-section{
-    width: 60%;
 }
 footer{
     margin-top: 20px;

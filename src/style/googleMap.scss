@@ -1,0 +1,23 @@
+.infoWrap {
+  margin: 5px;
+  display: flex;
+  flex-flow: row nowrap;
+  gap: 10px;
+}
+@mixin info {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  vertical-align: text-top;
+}
+.infoHeader {
+  @include info;
+  color: #999;
+  width: 70px;
+}
+.infoBody {
+  @include info;
+  color: #333;
+  width: calc(100% - 70px);
+  display: inline-block;
+}
