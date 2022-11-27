@@ -65,16 +65,16 @@ const Header = ({setLocation, setMessage}) => {
       return(
         <div onClick={() => setAddress(address)}>
           {address}
-        <button type="button" onClick={deleteHistory}>
-          <MdClose className="closeIcon" />
-        </button>
+          <button type="button" onClick={deleteHistory}>
+            <MdClose className="closeIcon" />
+          </button>
       </div>
       );
     }
 
     return(
       <div className="historyList">
-        {history.map((element,idx) => <HistoryTag key={element+idx} address={element}/>)}
+        {history.map((element, idx) => <HistoryTag key={element+idx} address={element}/>)}
       </div>
     );
   }

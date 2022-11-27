@@ -61,7 +61,7 @@ function App() {
     <div className="app_wrap">
       <Header setLocation={setLocation} setMessage={setMessage} />
       <div className='body_wrap'>
-        <div>{message}</div>
+        {message && <div className='message'>{message}</div>}
         {!message && (<GoogleMap location={location} data={data} />)}
       </div>
       <footer>

@@ -18,6 +18,12 @@
     display: flex;
     flex-flow: row nowrap;
     min-height: calc(100vh - 320px);
+    .message{
+        padding: 50%;
+        width: 100%;
+        font-size: 3rem;
+        text-align: center;
+    }
 }
 footer{
     margin-top: 20px;

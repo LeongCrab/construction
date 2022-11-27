@@ -103,6 +103,10 @@ const GoogleMap = ({ location, data }) => {
       marker.addListener("click", () => {
         infoWindow.setContent(contentString);
         infoWindow.open(map, marker);
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+        infoWindow.addListener("closeclick", () => {
+          marker.setAnimation(null);
+        });
       });
       return marker;
     });
