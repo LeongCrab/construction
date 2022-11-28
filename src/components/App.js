@@ -66,6 +66,9 @@ function App() {
       </div>
       <footer>
         <div>
+          모든 데이터의 저작권은 서울특별시에 있습니다.
+        </div>
+        <div>
           <div>
             <FaGithub className='icon' />
             <h5>
@@ -78,8 +81,7 @@ function App() {
               dladuscjf8@gmail.com
             </h5>
           </div>
-          
-        </div> 
+        </div>
       </footer>
     </div>
   );

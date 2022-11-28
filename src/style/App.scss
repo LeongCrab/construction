@@ -19,7 +19,7 @@
     flex-flow: row nowrap;
     min-height: calc(100vh - 320px);
     .message{
-        padding: 50%;
+        padding-top: 50%;
         width: 100%;
         font-size: 3rem;
         text-align: center;
@@ -32,6 +32,8 @@ footer{
     & > div{
         @include wrap;
         max-width: 100%;
+        display: flex;
+        gap: 15px;
         div{
             display: flex;
             height: 20px;

@@ -46,8 +46,6 @@ const GoogleMap = ({ location, data }) => {
       map,
     });
 
-
-
     const infoWindow = new google.maps.InfoWindow({
       maxWidth: 300,
       disableAutoPan: true,
