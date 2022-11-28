@@ -14,6 +14,7 @@ function App() {
   const [isFetching, setFetching] = useState(true);
   const [page, setPage] = useState(1);
   const [message, setMessage] = useState(null);
+  const [isLoading, setLoading] = useState(true);
   
   const fetchData = useCallback( async () => {
     const url = `http://openAPI.seoul.go.kr:8088/${SEOUL_KEY}/json/ListOnePMISBizInfo/${page}/${page + 999}`;
@@ -39,13 +40,19 @@ function App() {
         url: url,
       });
       if (loaded.data.ListOnePMISBizInfo) {
+        setMessage("공사장 정보를 받아오는 중...");
         await loaded.data.ListOnePMISBizInfo.row.forEach(dat => saveData(dat));
         await setFetching(true);
       }
+      else {
+        setLoading(false);
+        setMessage(null);
+      }
+
     }
     catch(err) {
       setFetching(false);
-      alert(err);
+      setMessage(err);
     }
   }, [page]);
 
@@ -61,12 +68,12 @@ function App() {
     <div className="app_wrap">
       <Header setLocation={setLocation} setMessage={setMessage} />
       <div className='body_wrap'>
-        {message && <div className='message'>{message}</div>}
-        {!message && (<GoogleMap location={location} data={data} />)}
+        {message && (<div className='message'>{message}</div> )}
+        {message === null && (<GoogleMap isLoading={isLoading} location={location} data={data} setMessage={setMessage} />)}
       </div>
       <footer>
         <div>
-          모든 데이터의 저작권은 서울특별시에 있습니다.
+          본 서비스는 서울시 내 건설 공사 정보를 제공합니다. 모든 데이터의 저작권은 서울특별시에 있습니다.
         </div>
         <div>
           <div>

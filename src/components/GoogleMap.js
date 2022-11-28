@@ -9,7 +9,7 @@ const MapStyle = styled.div`
   width: 100%;
 `;
 
-const GoogleMap = ({ location, data }) => {
+const GoogleMap = ({ isLoading, location, data, setMessage}) => {
   const mapRef = useRef(null);
 
   const loadScript = useCallback((url) => {
@@ -29,7 +29,6 @@ const GoogleMap = ({ location, data }) => {
       center: location,
       zoom,
       disableDefaultUI: true,
-      gestureHandling: "greedy",
       maxZoom: zoom + 3,
       restriction: {
         latLngBounds: {
@@ -90,7 +89,6 @@ const GoogleMap = ({ location, data }) => {
         strokeWeight: 0,
         rotation: 0,
         scale: 0.3,
-        anchor: new google.maps.Point(15, 30),
       };
 
       const marker = new google.maps.Marker({
@@ -102,15 +100,15 @@ const GoogleMap = ({ location, data }) => {
         infoWindow.setContent(contentString);
         infoWindow.open(map, marker);
         marker.setAnimation(google.maps.Animation.BOUNCE);
-        infoWindow.addListener("closeclick", () => {
+        infoWindow.addListener("visible", () => {
           marker.setAnimation(null);
-        });
+        }
+        )
       });
       return marker;
     });
-
     new MarkerClusterer({ markers, map });
-  }, [location, data]);
+  }, [location, isLoading]);
 
   useEffect(() => {
     const script = window.document.getElementsByTagName("script")[0];
@@ -129,7 +127,7 @@ const GoogleMap = ({ location, data }) => {
   return <MapStyle ref={mapRef} />;
 };
 
-export default GoogleMap;
+export default React.memo(GoogleMap);
 
 GoogleMap.defaultProps = {
   location: { lat: 37.5408325, lng: 126.9459381 },

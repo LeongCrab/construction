@@ -37,7 +37,7 @@ const Header = ({setLocation, setMessage}) => {
   }
   const getLocation = () => {
     if (navigator.geolocation) {
-      setMessage("Loading...")
+      setMessage("현재 위치를 받아오는 중...")
       navigator.geolocation.getCurrentPosition((position) => {
         setMessage(null);
         const pos = {
@@ -47,12 +47,12 @@ const Header = ({setLocation, setMessage}) => {
         setLocation(pos);
         },
         () => {
-          setMessage("Unable to retrieve your location");
+          setMessage("현재 위치를 찾을 수 없습니다.");
         }
       );
     } else {
       // Browser doesn't support Geolocation
-      setMessage("Geolocation is not supported by your browser");
+      setMessage("브라우저가 해당 기능을 지원하지 않습니다.");
     }
   };
 
